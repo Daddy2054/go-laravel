@@ -3,9 +3,12 @@ package celeritas
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
+	"time"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -18,11 +21,12 @@ type Celeritas struct {
 	ErrorLog *log.Logger
 	InfoLog  *log.Logger
 	RootPath string
-	config config
+	Routes *chi.Mux
+	config   config
 }
 
 type config struct {
-	port string 
+	port     string
 	renderer string
 }
 
@@ -54,9 +58,10 @@ func (c *Celeritas) New(rootPath string) error {
 	c.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 	c.Version = version
 	c.RootPath = rootPath
+	c.Routes =c.routes().(*chi.Mux)
 
-	c.config = config {
-		port: os.Getenv("PORT"),
+	c.config = config{
+		port:     os.Getenv("PORT"),
 		renderer: os.Getenv("RENDERER"),
 	}
 	return nil
@@ -74,6 +79,20 @@ func (c *Celeritas) Init(p initPaths) error {
 	return nil
 }
 
+// ListenAndServe starts the web server
+func (c *Celeritas) ListenAndServe() {
+	srv := &http.Server{
+		Addr:         fmt.Sprintf(":%s", os.Getenv("PORT")),
+		ErrorLog:     c.ErrorLog,
+		Handler:      c.routes(),
+		IdleTimeout:  30 * time.Second,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 30 * time.Second,
+	}
+	c.InfoLog.Printf("Listening on port %s", os.Getenv("PORT"))
+	err := srv.ListenAndServe()
+	c.ErrorLog.Fatal(err)
+}
 func (c *Celeritas) checkDotEnv(path string) error {
 	err := c.CreateDirIfNotExist(fmt.Sprintf("%s/.env", path))
 	if err != nil {
