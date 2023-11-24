@@ -11,6 +11,7 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/alexedwards/scs/v2"
 	"github.com/daddy2054/celeritas/render"
+	"github.com/daddy2054/celeritas/session"
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 )
@@ -76,6 +77,7 @@ func (c *Celeritas) New(rootPath string) error {
 			lifetime: os.Getenv("COOKIE_LIFETIME"),
 			persist:  os.Getenv("COOKIE_PERSISTS"),
 			secure:   os.Getenv("COOKIE_SECURE"),
+			domain: os.Getenv("COOKIE_DOMAIN"),
 		},
 		sessionType: os.Getenv("SESSION_TYPE"),
 	}
@@ -87,6 +89,7 @@ func (c *Celeritas) New(rootPath string) error {
 		CookiePersist: c.config.cookie.persist,
 		CookieName: c.config.cookie.name,
 		SessionType: c.config.sessionType,
+		CookieDomain: c.config.cookie.domain,
 	}
 
 	c.Session = sess.InitSession()
