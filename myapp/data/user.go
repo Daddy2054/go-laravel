@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"time"
 
 	up "github.com/upper/db/v4"
@@ -153,4 +154,24 @@ func (u *User) ResetPassword(id int, password string) error {
 	}
 
 	return nil
+}
+
+// PasswordMatches verifies a supplied password against the hash stored in the database.
+// It returns true if valid, and false if the password does not match, or if there is an
+// error. Note that an error is only returned if something goes wrong (since an invalid password
+// is not an error -- it's just the wrong password))
+func (u *User) PasswordMatches(plainText string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(plainText))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			// invalid password
+			return false, nil
+		default:
+			// some kind of error occurred
+			return false, err
+		}
+	}
+
+	return true, nil
 }
