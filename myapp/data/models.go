@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"fmt"
 	"os"
 
 	db2 "github.com/upper/db/v4"
@@ -9,7 +10,7 @@ import (
 	"github.com/upper/db/v4/adapter/postgresql"
 )
 
-var db *sql.DB
+// var db *sql.DB
 var upper db2.Session
 
 type Models struct {
@@ -18,7 +19,7 @@ type Models struct {
 }
 
 func New(databasePool *sql.DB) Models {
-	db = databasePool
+	// db = databasePool
 
 	if os.Getenv("DATABASE_TYPE") == "mysql" ||
 		os.Getenv("DATABASE_TYPE") == "mariadb" {
@@ -28,4 +29,13 @@ func New(databasePool *sql.DB) Models {
 	}
 
 	return Models{}
+}
+
+func getInsertID(i db2.ID) int {
+	idType := fmt.Sprintf("%T", i)
+	if idType == "int64" {
+		return int(i.(int64))
+	}
+
+	return i.(int)
 }
