@@ -19,21 +19,8 @@ func (a *application) routes() *chi.Mux {
 	a.App.Routes.Get("/sessions", a.Handlers.SessionTest)
 
 	a.App.Routes.Get("/users/login", a.Handlers.UserLogin)
-	// a.App.Routes.Post("/users/login", a.Handlers.PostUserLogin)
-	
-	// a.App.Routes.Get("/test-database", func(w http.ResponseWriter, r *http.Request) {
-	// 	query := "select id, first_name from users where id =1"
-	// 	row := a.App.DB.Pool.QueryRowContext(r.Context(), query)
-	// 	var id int
-	// 	var name string
-
-	// 	err := row.Scan(&id, &name)
-	// 	if err != nil {
-	// 		a.App.ErrorLog.Println(err)
-	// 		return
-	// 	}
-	// 	fmt.Fprintf(w, "%d %s", id, name)
-	// })
+	a.App.Routes.Post("/users/login", a.Handlers.PostUserLogin)
+	a.App.Routes.Get("/users/logout", a.Handlers.Logout)
 
 	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
@@ -75,7 +62,6 @@ func (a *application) routes() *chi.Mux {
 
 		fmt.Fprintf(w, "%s %s %s", u.FirstName, u.LastName, u.Email)
 	})
-
 
 	a.App.Routes.Get("/update-user/{id}", func(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(chi.URLParam(r, "id"))

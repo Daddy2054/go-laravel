@@ -95,8 +95,8 @@ func (c *Celeritas) New(rootPath string) error {
 		},
 		sessionType: os.Getenv("SESSION_TYPE"),
 		database: databaseConfig{
-			database:  os.Getenv("DATABASE_TYPE"),
-			dsn: c.BuildDSN(),
+			database: os.Getenv("DATABASE_TYPE"),
+			dsn:      c.BuildDSN(),
 		},
 	}
 
@@ -147,7 +147,7 @@ func (c *Celeritas) ListenAndServe() {
 	}
 
 	defer c.DB.Pool.Close()
-	
+
 	c.InfoLog.Printf("Listening on port %s", os.Getenv("PORT"))
 	err := srv.ListenAndServe()
 	c.ErrorLog.Fatal(err)
@@ -175,10 +175,12 @@ func (c *Celeritas) createRenderer() {
 		RootPath: c.RootPath,
 		Port:     c.config.port,
 		JetViews: c.JetViews,
+		Session:  c.Session,
 	}
 
 	c.Render = &myRenderer
 }
+
 // BuildDSN builds the datasource name for our database, and returns it as a string
 func (c *Celeritas) BuildDSN() string {
 	var dsn string
@@ -192,7 +194,7 @@ func (c *Celeritas) BuildDSN() string {
 			os.Getenv("DATABASE_NAME"),
 			os.Getenv("DATABASE_SSL_MODE"),
 		)
-				// we check to see if a database passsword has been supplied, since including "password=" with nothing
+		// we check to see if a database passsword has been supplied, since including "password=" with nothing
 		// after it sometimes causes postgres to fail to allow a connection.
 		if os.Getenv("DATABASE_PASS") != "" {
 			dsn = fmt.Sprintf("%s password=%s", dsn, os.Getenv("DATABASE_PASS"))
