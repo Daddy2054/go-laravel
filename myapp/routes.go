@@ -18,6 +18,9 @@ func (a *application) routes() *chi.Mux {
 	a.App.Routes.Get("/jet-page", a.Handlers.JetPage)
 	a.App.Routes.Get("/sessions", a.Handlers.SessionTest)
 
+	a.App.Routes.Get("/users/login", a.Handlers.UserLogin)
+	// a.App.Routes.Post("/users/login", a.Handlers.PostUserLogin)
+	
 	// a.App.Routes.Get("/test-database", func(w http.ResponseWriter, r *http.Request) {
 	// 	query := "select id, first_name from users where id =1"
 	// 	row := a.App.DB.Pool.QueryRowContext(r.Context(), query)
@@ -73,7 +76,7 @@ func (a *application) routes() *chi.Mux {
 		fmt.Fprintf(w, "%s %s %s", u.FirstName, u.LastName, u.Email)
 	})
 
-	
+
 	a.App.Routes.Get("/update-user/{id}", func(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
 		u, err := a.Models.Users.Get(id)
