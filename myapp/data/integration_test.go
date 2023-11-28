@@ -1,6 +1,6 @@
 //go:build integration
-package data
 
+package data
 
 // run tests with this command: go test . --tags integration --count=1
 
@@ -41,6 +41,7 @@ var pool *dockertest.Pool
 
 func TestMain(m *testing.M) {
 	os.Setenv("DATABASE_TYPE", "postgres")
+	os.Setenv("UPPER_DB_LOG","ERROR")
 
 	p, err := dockertest.NewPool("")
 	if err != nil {
@@ -470,7 +471,7 @@ func TestToken_BadHeader(t *testing.T) {
 	}
 
 	req, _ = http.NewRequest("GET", "/", nil)
-	req.Header.Add("Autorization", "abc")
+	req.Header.Add("Authorization", "abc")
 	_, err = models.Tokens.AuthenticateToken(req)
 	if err == nil {
 		t.Error("failed to catch bad auth header")
@@ -505,7 +506,7 @@ func TestToken_BadHeader(t *testing.T) {
 	}
 
 	req, _ = http.NewRequest("GET", "/", nil)
-	req.Header.Add("Autorization", "Bearer "+token.PlainText)
+	req.Header.Add("Authorization", "Bearer "+token.PlainText)
 	_, err = models.Tokens.AuthenticateToken(req)
 	if err == nil {
 		t.Error("failed to catch token for deleted user")
