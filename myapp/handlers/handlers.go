@@ -9,7 +9,7 @@ import (
 )
 
 type Handlers struct {
-	App *celeritas.Celeritas
+	App    *celeritas.Celeritas
 	Models data.Models
 }
 
@@ -38,7 +38,7 @@ func (h *Handlers) SessionTest(w http.ResponseWriter, r *http.Request) {
 	h.App.Session.Put(r.Context(), "foo", myData)
 	myValue := h.App.Session.GetString(r.Context(), "foo")
 
-	vars :=make(jet.VarMap)
+	vars := make(jet.VarMap)
 	vars.Set("foo", myValue)
 	err := h.App.Render.JetPage(w, r, "sessions", vars, nil)
 	if err != nil {
