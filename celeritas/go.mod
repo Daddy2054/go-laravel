@@ -12,7 +12,11 @@ require (
 )
 
 require (
+	github.com/fatih/color v1.16.0
 	github.com/jackc/pgtype v0.0.0-20190828014616-a8802b16cc59 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
+	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
 
