@@ -1,2 +1,5 @@
 myapp/.env
 db-data/*
+myapp/celeritas
+myapp/tmp/*
+myapp/celeritas

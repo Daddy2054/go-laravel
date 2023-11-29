@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/fatih/color"
 	"github.com/daddy2054/celeritas"
+	"github.com/fatih/color"
 )
 
 const version = "1.0.0"
@@ -14,10 +14,13 @@ const version = "1.0.0"
 var cel celeritas.Celeritas
 
 func main() {
+	var message string
 	arg1, arg2, arg3, err := validateInput()
 	if err != nil {
 		exitGracefully(err)
 	}
+
+	setup()
 
 	switch arg1 {
 	case "help":
@@ -25,6 +28,16 @@ func main() {
 
 	case "version":
 		color.Yellow("Application version: " + version)
+
+	case "migrate":
+		if arg2 == "" {
+			arg2 = "up"
+		}
+		err = doMigrate(arg2, arg3)
+		if err != nil {
+			exitGracefully(err)
+		}
+		message = "Migrations complete!"
 
 	case "make":
 		if arg2 == "" {
@@ -34,15 +47,17 @@ func main() {
 		if err != nil {
 			exitGracefully(err)
 		}
-		
+
 	default:
 		log.Println(arg2, arg3)
 	}
+	exitGracefully(nil, message)
+
 }
 
 func validateInput() (string, string, string, error) {
 	var arg1, arg2, arg3 string
-	
+
 	if len(os.Args) > 1 {
 		arg1 = os.Args[1]
 
