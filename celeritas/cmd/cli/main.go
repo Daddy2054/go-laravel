@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"log"
 	"os"
 
 	"github.com/daddy2054/celeritas"
@@ -49,7 +48,8 @@ func main() {
 		}
 
 	default:
-		log.Println(arg2, arg3)
+		showHelp()
+
 	}
 	exitGracefully(nil, message)
 

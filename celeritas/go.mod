@@ -11,6 +11,8 @@ require (
 	github.com/jackc/pgx/v4 v4.18.1
 )
 
+require github.com/iancoleman/strcase v0.3.0 // indirect
+
 require (
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/hashicorp/errwrap v1.1.0 // indirect
