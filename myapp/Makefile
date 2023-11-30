@@ -20,7 +20,7 @@ clean:
 start_compose:
 	docker compose up -d
 
-start_compose:
+down_compose:
 	docker compose down -d
 
 test:
