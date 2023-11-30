@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 func doAuth() error {
@@ -13,7 +14,7 @@ func doAuth() error {
 	upFile := cel.RootPath + "/migrations/" + fileName + ".up.sql"
 	downFile := cel.RootPath + "/migrations/" + fileName + ".down.sql"
 
-	log.Println(dbType, upFile, downFile)
+	// log.Println(dbType, upFile, downFile)
 
 	err := copyFilefromTemplate("templates/migrations/auth_tables." + dbType + ".sql", upFile)
 	if err != nil {
@@ -52,6 +53,12 @@ func doAuth() error {
 		if err != nil {
 			exitGracefully(err)
 		}
-		
+
+		color.Yellow("  - users, tokens, and remember_tokens migrations created and executed")
+		color.Yellow("  - user and token models created")
+		color.Yellow("  - auth middleware created")
+		color.Yellow("")
+		color.Yellow("Don't forget to add user and token models in data/models.go, and to add appropriate middleware to your routes!")
+	
 	return nil
 }
