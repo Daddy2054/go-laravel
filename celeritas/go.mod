@@ -11,7 +11,10 @@ require (
 	github.com/jackc/pgx/v4 v4.18.1
 )
 
-require github.com/iancoleman/strcase v0.3.0 // indirect
+require (
+	github.com/gertd/go-pluralize v0.2.1 // indirect
+	github.com/iancoleman/strcase v0.3.0 // indirect
+)
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.16.2
