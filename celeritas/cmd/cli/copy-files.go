@@ -5,12 +5,13 @@ import (
 	"errors"
 	"os"
 )
+//go:embed templates/*
 
-//go:embed templates/migrations/migration.postgres.down.sql
-//go:embed templates/migrations/migration.postgres.up.sql
-//go:embed templates/migrations/auth_tables.postgres.sql
-//go:embed templates/data/user.go.txt
-//go:embed templates/data/token.go.txt
+		//go:embed templates/data/token.go.txt
+		//go:embed templates/migrations/migration.postgres.down.sql
+		//go:embed templates/migrations/migration.postgres.up.sql
+		//go:embed templates/migrations/auth_tables.postgres.sql
+		//go:embed templates/data/user.go.txt
 var templateFS embed.FS
 
 func copyFilefromTemplate(templatePath, targetFile string) error {
