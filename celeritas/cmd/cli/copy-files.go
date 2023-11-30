@@ -7,6 +7,7 @@ import (
 
 //go:embed templates/migrations/migration.postgres.down.sql
 //go:embed templates/migrations/migration.postgres.up.sql
+//go:embed templates/migrations/auth_tables.postgres.sql
 var templateFS embed.FS
 
 func copyFilefromTemplate(templatePath, targetFile string) error {

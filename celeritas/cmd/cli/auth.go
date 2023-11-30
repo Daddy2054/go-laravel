@@ -10,8 +10,8 @@ func doAuth() error {
 	// migrations
 	dbType := cel.DB.DataType
 	fileName := fmt.Sprintf("%d_create_auth_tables", time.Now().UnixMicro())
-	upFile := cel.RootPath + "/migrations" + fileName + ".up.sql"
-	downFile := cel.RootPath + "/migrations" + fileName + ".down.sql"
+	upFile := cel.RootPath + "/migrations/" + fileName + ".up.sql"
+	downFile := cel.RootPath + "/migrations/" + fileName + ".down.sql"
 
 	log.Println(dbType, upFile, downFile)
 
