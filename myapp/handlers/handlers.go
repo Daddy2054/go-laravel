@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"myapp/data"
 	"net/http"
 
@@ -46,7 +47,6 @@ func (h *Handlers) SessionTest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
 // JSON is the handler to demonstrate json responses
 func (h *Handlers) JSON(w http.ResponseWriter, r *http.Request) {
 	var payload struct {
@@ -87,4 +87,26 @@ func (h *Handlers) XML(w http.ResponseWriter, r *http.Request) {
 // DownloadFile is the handler to demonstrate file download reponses
 func (h *Handlers) DownloadFile(w http.ResponseWriter, r *http.Request) {
 	h.App.DownloadFile(w, r, "./public/images", "celeritas.jpg")
+}
+
+func (h *Handlers) TestCrypto(w http.ResponseWriter, r *http.Request) {
+	plainText := "Hello, world"
+	fmt.Fprint(w, "Unencrypted: "+plainText+"\n")
+	encrypted, err := h.encrypt(plainText)
+	if err != nil {
+		h.App.ErrorLog.Println(err)
+		h.App.Error500(w, r)
+		return
+	}
+
+	fmt.Fprint(w, "Encrypted: "+encrypted+"\n")
+
+	decrypted, err := h.decrypt(encrypted)
+	if err != nil {
+		h.App.ErrorLog.Println(err)
+		h.App.Error500(w, r)
+		return
+	}
+
+	fmt.Fprint(w, "Decrypted: "+decrypted+"\n")
 }

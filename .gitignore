@@ -2,8 +2,7 @@ myapp/.env
 db-data/*
 myapp/celeritas
 myapp/tmp/*
-myapp/celeritas
-myapp/celeritas
 myapp/migrations/*
 
 myapp/tmp/celeritasApp
+myapp/.env2
