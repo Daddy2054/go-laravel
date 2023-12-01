@@ -16,7 +16,7 @@ type Cache interface {
 }
 
 type RedisCache struct {
-	Conn *redis.Pool
+	Conn   *redis.Pool
 	Prefix string
 }
 
@@ -31,6 +31,24 @@ func (c *RedisCache) Has(str string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-
 	return ok, nil
+}
+func (c *RedisCache) Get(str string) (interface{}, error) {
+	return "", nil
+}
+
+func (c *RedisCache) Set(str string, data interface{}, ttl ...int) error {
+	return nil
+}
+
+func (c *RedisCache) Forget(str string) error {
+	return nil
+}
+
+func (c *RedisCache) EmptyByMatch(str string) error {
+	return nil
+}
+
+func (c *RedisCache) Empty() error {
+	return nil
 }
