@@ -22,6 +22,7 @@ require (
 	github.com/gertd/go-pluralize v0.2.1 // indirect
 	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
+	github.com/justinas/nosurf v1.1.1 // indirect
 	github.com/yuin/gopher-lua v1.1.0 // indirect
 )
 
