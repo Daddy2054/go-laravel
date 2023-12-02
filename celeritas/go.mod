@@ -12,8 +12,10 @@ require (
 )
 
 require (
+	github.com/alexedwards/scs v1.4.1 // indirect
 	github.com/alexedwards/scs/mysqlstore v0.0.0-20231113091146-cef4b05350c8 // indirect
 	github.com/alexedwards/scs/postgresstore v0.0.0-20231113091146-cef4b05350c8 // indirect
+	github.com/alexedwards/scs/redisstore v0.0.0-20231113091146-cef4b05350c8 // indirect
 	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
 	github.com/alicebob/miniredis/v2 v2.31.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
