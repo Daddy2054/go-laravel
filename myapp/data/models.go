@@ -10,7 +10,7 @@ import (
 	"github.com/upper/db/v4/adapter/postgresql"
 )
 
-// var db *sql.DB
+var db *sql.DB
 var upper db2.Session
 
 type Models struct {
@@ -20,14 +20,17 @@ type Models struct {
 	Tokens Token
 }
 
+// New initializes the models package for use
 func New(databasePool *sql.DB) Models {
-	// db = databasePool
+	db = databasePool
 
-	if os.Getenv("DATABASE_TYPE") == "mysql" ||
-		os.Getenv("DATABASE_TYPE") == "mariadb" {
+	switch os.Getenv("DATABASE_TYPE") {
+	case "mysql", "mariadb":
 		upper, _ = mysql.New(databasePool)
-	} else {
+	case "postgres", "postgresql":
 		upper, _ = postgresql.New(databasePool)
+	default:
+		// do nothing
 	}
 
 	return Models{

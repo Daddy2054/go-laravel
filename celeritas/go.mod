@@ -19,11 +19,27 @@ require (
 	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
 	github.com/alicebob/miniredis/v2 v2.31.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
+	github.com/cespare/xxhash v1.1.0 // indirect
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/dgraph-io/badger/v3 v3.2103.5 // indirect
+	github.com/dgraph-io/ristretto v0.1.1 // indirect
+	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gertd/go-pluralize v0.2.1 // indirect
+	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomodule/redigo v1.8.9 // indirect
+	github.com/google/flatbuffers v2.0.8+incompatible // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
 	github.com/justinas/nosurf v1.1.1 // indirect
+	github.com/klauspost/compress v1.15.11 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/yuin/gopher-lua v1.1.0 // indirect
+	go.opencensus.io v0.24.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 )
 
 require (
