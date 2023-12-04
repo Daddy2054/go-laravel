@@ -14,7 +14,7 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.5.1 // indirect
 	github.com/SparkPost/gosparkpost v0.2.0 // indirect
-	github.com/ainsleyclark/go-mail v1.0.3 // indirect
+	github.com/ainsleyclark/go-mail v1.1.1 // indirect
 	github.com/alexedwards/scs v1.4.1 // indirect
 	github.com/alexedwards/scs/mysqlstore v0.0.0-20231113091146-cef4b05350c8 // indirect
 	github.com/alexedwards/scs/postgresstore v0.0.0-20231113091146-cef4b05350c8 // indirect
