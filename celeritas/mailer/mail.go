@@ -65,6 +65,8 @@ func (m *Mail) ListenForMail() {
 	}
 }
 
+// Send sends an email message using correct method. If API values are set,
+// it will send using the appropriate api; otherwise, it sends via smtp
 func (m *Mail) Send(msg Message) error {
 	if len(m.API) > 0 && len(m.APIKey) > 0 && len(m.APIUrl) > 0 && m.API != "smtp" {
 		m.ChooseAPI(msg)
@@ -72,6 +74,7 @@ func (m *Mail) Send(msg Message) error {
 	return m.SendSMTPMessage(msg)
 }
 
+// ChooseAPI chooses api to use (specified in .env)
 func (m *Mail) ChooseAPI(msg Message) error {
 	switch m.API {
 	case "mailgun", "sparkpost", "sendgrid":
@@ -81,6 +84,8 @@ func (m *Mail) ChooseAPI(msg Message) error {
 	}
 }
 
+// SendUsingAPI sends a message using the appropriate API. It can be called directly, if necessary.
+// transport can be one of sparkpost, sendgrid, or mailgun
 func (m *Mail) SendUsingAPI(msg Message, transport string) error {
 	if msg.From == "" {
 		msg.From = m.FromAddress
@@ -134,6 +139,7 @@ func (m *Mail) SendUsingAPI(msg Message, transport string) error {
 	return nil
 }
 
+// addAPIAttachments adds attachments, if any, to mail being sent via api
 func (m *Mail) addAPIAttachments(msg Message, tx *apimail.Transmission) error {
 	if len(msg.Attachments) > 0 {
 		var attachments []apimail.Attachment
@@ -240,6 +246,7 @@ func (m *Mail) buildHTMLMessage(msg Message) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	return formattedMessage, nil
 }
 

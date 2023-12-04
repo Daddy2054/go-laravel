@@ -11,6 +11,7 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/alexedwards/scs/v2"
 	"github.com/daddy2054/celeritas/cache"
+	"github.com/daddy2054/celeritas/mailer"
 	"github.com/daddy2054/celeritas/render"
 	"github.com/daddy2054/celeritas/session"
 	"github.com/dgraph-io/badger/v3"
@@ -43,6 +44,7 @@ type Celeritas struct {
 	EncryptionKey string
 	Cache         cache.Cache
 	Scheduler     *cron.Cron
+	Mail          mailer.Mail
 }
 
 type config struct {
@@ -56,8 +58,18 @@ type config struct {
 
 func (c *Celeritas) New(rootPath string) error {
 	pathConfig := initPaths{
-		rootPath:    rootPath,
-		folderNames: []string{"handlers", "migrations", "views", "data", "public", "tmp", "logs", "middleware"},
+		rootPath: rootPath,
+		folderNames: []string{
+			"handlers",
+			"migrations",
+			"views",
+			"mail",
+			"data",
+			"public",
+			"tmp",
+			"logs",
+			"middleware",
+		},
 	}
 	err := c.Init(pathConfig)
 	if err != nil {
@@ -92,7 +104,7 @@ func (c *Celeritas) New(rootPath string) error {
 
 	scheduler := cron.New()
 	c.Scheduler = scheduler
-	
+
 	if os.Getenv("CACHE") == "redis" || os.Getenv("SESSION_TYPE") == "redis" {
 		myRedisCache = c.createClientRedisCache()
 		c.Cache = myRedisCache
@@ -114,6 +126,7 @@ func (c *Celeritas) New(rootPath string) error {
 
 	c.InfoLog = infoLog
 	c.ErrorLog = errorLog
+	c.Mail = c.createMailer()
 	c.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 	c.Version = version
 	c.RootPath = rootPath
@@ -177,6 +190,7 @@ func (c *Celeritas) New(rootPath string) error {
 	}
 
 	c.createRenderer()
+	go c.Mail.ListenForMail()
 	return nil
 }
 
@@ -236,6 +250,7 @@ func (c *Celeritas) startLoggers() (*log.Logger, *log.Logger) {
 
 	return infoLog, errorLog
 }
+
 func (c *Celeritas) createRenderer() {
 	myRenderer := render.Render{
 		Renderer: c.config.renderer,
@@ -246,6 +261,27 @@ func (c *Celeritas) createRenderer() {
 	}
 
 	c.Render = &myRenderer
+}
+
+func (c *Celeritas) createMailer() mailer.Mail {
+	port, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
+	m := mailer.Mail{
+		Domain: os.Getenv("MAIL_DOMAIN"),
+		Templates: c.RootPath + "/mail",
+		Host: os.Getenv("SMTP_HOST"),
+		Port: port,
+		Username: os.Getenv("SMTP_USERNAME"),
+		Password: os.Getenv("SMTP_PASSWORD"),
+		Encryption: os.Getenv("SMTP_ENCRYPTION"),
+		FromName: os.Getenv("FROM_NAME"),
+		FromAddress: os.Getenv("FROM_ADDRESS"),
+		Jobs: make(chan mailer.Message, 20),
+		Results: make(chan mailer.Result, 20),
+		API: os.Getenv("MAILER_API"),
+		APIKey: os.Getenv("MAILER_KEY"),
+		APIUrl: os.Getenv("MAILER_URL"),
+	}
+	return m
 }
 
 func (c *Celeritas) createClientRedisCache() *cache.RedisCache {

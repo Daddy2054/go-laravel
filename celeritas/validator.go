@@ -11,14 +11,14 @@ import (
 )
 
 type Validation struct {
-	Data url.Values
+	Data   url.Values
 	Errors map[string]string
 }
 
 func (c *Celeritas) Validator(data url.Values) *Validation {
 	return &Validation{
 		Errors: make(map[string]string),
-		Data: data,
+		Data:   data,
 	}
 }
 
@@ -34,10 +34,8 @@ func (v *Validation) AddError(key, message string) {
 
 func (v *Validation) Has(field string, r *http.Request) bool {
 	x := r.Form.Get(field)
-	if x == "" {
-		return false
-	}
-	return true
+	return x != ""
+
 }
 
 func (v *Validation) Required(r *http.Request, fields ...string) {

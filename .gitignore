@@ -7,3 +7,5 @@ myapp/migrations/*
 myapp/tmp/celeritasApp
 myapp/.env2
 celeritas/cache/testdata/tmp/badger/*
+celeritas/vendor/*
+myapp/vendor/*

@@ -1,7 +1,6 @@
 package celeritas
 
 import (
-	"fmt"
 	"regexp"
 	"runtime"
 	"time"
@@ -14,5 +13,6 @@ func (c *Celeritas) LoadTime(start time.Time) {
 	runtimeFunc := regexp.MustCompile(`^.*\.(.*)$`)
 	name := runtimeFunc.ReplaceAllString(funcObj.Name(), "$1")
 
-	c.InfoLog.Println(fmt.Sprintf("Load Time: %s took %s", name, elapsed))
+	c.InfoLog.Printf("Load Time: %s took %s", name, elapsed)
+	// c.InfoLog.Println(fmt.Sprintf("Load Time: %s took %s", name, elapsed))
 }
