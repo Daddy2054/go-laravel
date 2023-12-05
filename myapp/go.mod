@@ -11,6 +11,8 @@ require (
 	golang.org/x/crypto v0.15.0
 )
 
+require github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631 // indirect
+
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
