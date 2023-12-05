@@ -116,5 +116,6 @@ require (
 require (
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/CloudyKit/jet/v6 v6.2.0
+	github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631
 	github.com/go-sql-driver/mysql v1.7.1
 )
