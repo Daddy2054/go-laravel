@@ -12,7 +12,7 @@ import (
 
 func (a *application) routes() *chi.Mux {
 	//midleware must come before any routes
-
+	a.use(a.Middleware.CheckRemember)
 	//add routes here
 	a.get("/", a.Handlers.Home)
 	a.App.Routes.Get("/go-page", a.Handlers.GoPage)
@@ -23,14 +23,14 @@ func (a *application) routes() *chi.Mux {
 	a.post("/users/login", a.Handlers.PostUserLogin)
 	a.App.Routes.Get("/users/logout", a.Handlers.Logout)
 
-	a.App.Routes.Get("/form",a.Handlers.Form)
-	a.App.Routes.Post("/form",a.Handlers.PostForm)
+	a.App.Routes.Get("/form", a.Handlers.Form)
+	a.App.Routes.Post("/form", a.Handlers.PostForm)
 
 	a.get("/json", a.Handlers.JSON)
 	a.get("/xml", a.Handlers.XML)
 	a.get("/download-file", a.Handlers.DownloadFile)
 
-	a.get("/crypto",a.Handlers.TestCrypto)
+	a.get("/crypto", a.Handlers.TestCrypto)
 
 	a.get("/cache-test", a.Handlers.ShowCachePage)
 	a.post("/api/save-in-cache", a.Handlers.SaveInCache)
@@ -40,12 +40,12 @@ func (a *application) routes() *chi.Mux {
 
 	a.get("/test-mail", func(w http.ResponseWriter, r *http.Request) {
 		msg := mailer.Message{
-			From: "test@example.com",
-			To: "you@there.com",
-			Subject: "Test Subject - sent using channel",
-			Template: "test",
+			From:        "test@example.com",
+			To:          "you@there.com",
+			Subject:     "Test Subject - sent using channel",
+			Template:    "test",
 			Attachments: nil,
-			Data: nil,
+			Data:        nil,
 		}
 
 		// a.App.Mail.Jobs <- msg
@@ -61,7 +61,6 @@ func (a *application) routes() *chi.Mux {
 
 		fmt.Fprint(w, "Send mail!")
 	})
-
 
 	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
