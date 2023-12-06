@@ -9,3 +9,4 @@ myapp/.env2
 celeritas/cache/testdata/tmp/badger/*
 celeritas/vendor/*
 myapp/vendor/*
+celeritas/dist/celeritas
