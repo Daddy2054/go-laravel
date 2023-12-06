@@ -83,8 +83,6 @@ func validateInput() (string, string, string, error) {
 	return arg1, arg2, arg3, nil
 }
 
-
-
 func exitGracefully(err error, msg ...string) {
 	message := ""
 	if len(msg) > 0 {
