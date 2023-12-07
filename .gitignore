@@ -10,3 +10,4 @@ celeritas/cache/testdata/tmp/badger/*
 celeritas/vendor/*
 myapp/vendor/*
 celeritas/dist/celeritas
+celeritas/dist/*
