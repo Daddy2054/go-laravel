@@ -11,10 +11,11 @@ import (
 	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
 )
+var appURL string
 
 func doNew(appName string) {
 	appName = strings.ToLower(appName)
-
+	appURL = appName
 	// sanitize the application name (convert url to single word)
 	if strings.Contains(appName, "/") {
 		exploded := strings.SplitAfter(appName, "/")
@@ -94,6 +95,21 @@ func doNew(appName string) {
 	_ = os.Remove("./" + appName + "/Makefile.windows")
 
 	// update the go.mod file
+	color.Yellow("\tCreating go.mod file...")
+	_ = os.Remove("./" + appName + "/go.mod")
+
+	data, err = templateFS.ReadFile("templates/go.mod.txt")
+	if err != nil {
+		exitGracefully(err)
+	}
+
+	mod := string(data)
+	mod = strings.ReplaceAll(mod, "${APP_NAME}", appURL)
+
+	err = copyDataToFile([]byte(mod), "./" + appName + "/go.mod")
+	if err != nil {
+		exitGracefully(err)
+	}
 
 	// update existing .go files with correct name/imports
 
