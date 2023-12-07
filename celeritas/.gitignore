@@ -1,3 +1,4 @@
 cache/testdata/tmp/badger/*
 vendor/*
 dist/*
+coverage.out
