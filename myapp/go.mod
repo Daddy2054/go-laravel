@@ -12,7 +12,6 @@ require (
 )
 
 require (
-	github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
@@ -62,7 +61,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/justinas/nosurf v1.1.1
+	github.com/justinas/nosurf v1.1.1 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.4.1 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
