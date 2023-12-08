@@ -47,7 +47,9 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			fs = &f
 			fsType = "MINIO"
 		}
-
+        if curPath == "/" {
+            curPath = ""
+        }
 		l, err := fs.List(curPath)
 		if err != nil {
 			h.App.ErrorLog.Println(err)
@@ -66,3 +68,4 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 		h.App.ErrorLog.Println(err)
 	}
 }
+
