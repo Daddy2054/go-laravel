@@ -47,7 +47,7 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			fs = &f
 			fsType = "MINIO"
 		}
-        if curPath == "/" {
+        if curPath == "/" { // this makes files displayed
             curPath = ""
         }
 		l, err := fs.List(curPath)
@@ -69,3 +69,14 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *Handlers) UploadToFS(w http.ResponseWriter, r *http.Request) {
+	fsType := r.URL.Query().Get("type")
+
+	vars := make(jet.VarMap)
+	vars.Set("fs_type", fsType)
+
+	err := h.render(w, r, "upload", vars, nil)
+	if err != nil {
+		h.App.ErrorLog.Println(err)
+	}
+}
