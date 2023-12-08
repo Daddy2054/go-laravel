@@ -13,7 +13,7 @@ import (
 )
 
 type Minio struct {
-	endpoint string
+	Endpoint string
 	Key      string
 	Secret   string
 	UseSSL   bool
@@ -22,7 +22,7 @@ type Minio struct {
 }
 
 func (m *Minio) getCredentials() *minio.Client {
-	client, err := minio.New(m.endpoint, &minio.Options{
+	client, err := minio.New(m.Endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(m.Key, m.Secret, ""),
 		Secure: m.UseSSL,
 	})
