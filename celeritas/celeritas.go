@@ -12,7 +12,6 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/alexedwards/scs/v2"
 	"github.com/daddy2054/celeritas/cache"
-	"github.com/daddy2054/celeritas/filesystems"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
 	"github.com/daddy2054/celeritas/mailer"
 	"github.com/daddy2054/celeritas/render"

@@ -11,7 +11,16 @@ require (
 	golang.org/x/crypto v0.15.0
 )
 
-require github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631 // indirect
+require (
+	github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631 // indirect
+	github.com/google/uuid v1.3.0 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
+	github.com/minio/md5-simd v1.1.2 // indirect
+	github.com/minio/minio-go/v7 v7.0.65 // indirect
+	github.com/minio/sha256-simd v1.0.1 // indirect
+	github.com/rs/xid v1.5.0 // indirect
+	gopkg.in/ini.v1 v1.67.0 // indirect
+)
 
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
@@ -29,7 +38,7 @@ require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/containerd/continuity v0.3.0 // indirect
-	github.com/daddy2054/celeritas v0.0.0-00010101000000-000000000000
+	github.com/daddy2054/celeritas v0.0.0
 	github.com/dgraph-io/badger/v3 v3.2103.5 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/docker/cli v20.10.17+incompatible // indirect

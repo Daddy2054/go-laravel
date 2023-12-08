@@ -3,11 +3,13 @@ package main
 import (
 	// "fmt"
 	// "myapp/data"
+	"log"
 	"net/http"
 	// "strconv"
 
 	// "github.com/daddy2054/celeritas/mailer"
 	"github.com/daddy2054/celeritas"
+	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -17,6 +19,20 @@ func (a *application) routes() *chi.Mux {
 	//add routes here
 	a.get("/", a.Handlers.Home)
 
+	a.get("/test-minio", func(w http.ResponseWriter, r *http.Request) {
+		f := a.App.FileSystems["MINIO"].(miniofilesystem.Minio)
+
+		files, err := f.List("")
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		for _, file := range files {
+			log.Println(file.Key)
+		}
+	})
+	
 
 	// a.App.Routes.Get("/go-page", a.Handlers.GoPage)
 	// a.App.Routes.Get("/jet-page", a.Handlers.JetPage)
