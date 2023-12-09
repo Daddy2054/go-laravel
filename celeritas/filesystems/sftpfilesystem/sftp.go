@@ -22,23 +22,24 @@ type SFTP struct {
 
 func (s *SFTP) getCredentials() (*sftp.Client, error) {
 	addr := fmt.Sprintf("%s:%s", s.Host, s.Port)
-	config := &ssh.ClientConfig{
+		config := &ssh.ClientConfig{
 		User: s.User,
 		Auth: []ssh.AuthMethod{
 			ssh.Password(s.Pass),
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
+
 	conn, err := ssh.Dial("tcp", addr, config)
-	if err != nil {
+		if err != nil {
 		return nil, err
 	}
 	client, err := sftp.NewClient(conn)
-	if err != nil {
+		if err != nil {
 		return nil, err
 	}
 	cwd, err := client.Getwd()
-	if err != nil {
+		if err != nil {
 		return nil, err
 	}
 	log.Println("Current working directory:", cwd)
@@ -60,7 +61,7 @@ func (s *SFTP) Put(fileName, folder string) error {
 	}
 	defer f.Close()
 
-	f2, err := client.Create(path.Base(fileName))
+	f2, err := client.Create(fmt.Sprintf("%s/%s",folder,path.Base(fileName)))
 	if err != nil {
 		return err
 	}

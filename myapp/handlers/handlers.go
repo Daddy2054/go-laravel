@@ -69,7 +69,9 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 
 		list = l
 	}
-
+//----
+h.App.ErrorLog.Println(list)
+//---
 	vars := make(jet.VarMap)
 	vars.Set("list", list)
 	vars.Set("fs_type", fsType)
@@ -94,6 +96,8 @@ func (h *Handlers) UploadToFS(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 	fileName, err := getFileToUpload(r, "formFile")
+	h.App.ErrorLog.Println(fileName)
+	
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -104,6 +108,13 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 	switch uploadType {
 	case "MINIO":
 		fs := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
+		err = fs.Put(fileName, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	case "SFTP":
+		fs := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 		err = fs.Put(fileName, "")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -134,7 +145,6 @@ func getFileToUpload(r *http.Request, fieldName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return fmt.Sprintf("./tmp/%s", header.Filename), nil
 
 }
