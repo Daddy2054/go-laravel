@@ -12,6 +12,7 @@ import (
 	"github.com/daddy2054/celeritas"
 	"github.com/daddy2054/celeritas/filesystems"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
+	"github.com/daddy2054/celeritas/filesystems/sftpfilesystem"
 )
 
 // Handlers is the type for handlers, and gives access to Celeritas and models
@@ -49,10 +50,17 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			f := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
 			fs = &f
 			fsType = "MINIO"
+
+		case "SFTP":
+			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
+			fs = &f
+			fsType = "SFTP"
 		}
-        if curPath == "/" { // this makes files displayed
-            curPath = ""
-        }
+		//---------------
+		if curPath == "/" { // this makes files displayed
+			curPath = ""
+		}
+		//--------------
 		l, err := fs.List(curPath)
 		if err != nil {
 			h.App.ErrorLog.Println(err)
@@ -93,7 +101,7 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 
 	uploadType := r.Form.Get("upload-type")
 
-	switch uploadType{
+	switch uploadType {
 	case "MINIO":
 		fs := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
 		err = fs.Put(fileName, "")

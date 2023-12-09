@@ -117,7 +117,7 @@ func (s *SFTP) Delete(itemsToDelete []string) bool {
 			return false
 		}
 	}
-	
+
 	return true
 }
 

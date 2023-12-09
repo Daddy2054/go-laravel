@@ -15,9 +15,11 @@ require (
 	github.com/gofrs/uuid v4.1.0+incompatible // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
+	github.com/kr/fs v0.1.0 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
 	github.com/minio/minio-go/v7 v7.0.65 // indirect
 	github.com/minio/sha256-simd v1.0.1 // indirect
+	github.com/pkg/sftp v1.13.6 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
@@ -38,7 +40,7 @@ require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/containerd/continuity v0.3.0 // indirect
-	github.com/daddy2054/celeritas v0.0.0
+	github.com/daddy2054/celeritas v1.0.0
 	github.com/dgraph-io/badger/v3 v3.2103.5 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/docker/cli v20.10.17+incompatible // indirect
