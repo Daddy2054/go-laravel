@@ -13,6 +13,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/daddy2054/celeritas/cache"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
+	"github.com/daddy2054/celeritas/filesystems/sftpfilesystem"
 	"github.com/daddy2054/celeritas/mailer"
 	"github.com/daddy2054/celeritas/render"
 	"github.com/daddy2054/celeritas/session"
@@ -392,6 +393,16 @@ func (c *Celeritas) createFileSystems() map[string]interface{} {
 			Bucket: os.Getenv("MINIO_BUCKET"),
 		}
 		fileSystems["MINIO"] = minio
+	}
+
+	if os.Getenv("SFTP_HOST") != "" {
+		sftp := sftpfilesystem.SFTP{
+			Host: os.Getenv("SFTP_HOST"),
+			User: os.Getenv("SFTP_USER"),
+			Pass: os.Getenv("SFTP_PASS"),
+			Port: os.Getenv("SFTP_PORT"),
+		}
+		fileSystems["SFTP"] = sftp
 	}
 
 	return fileSystems
