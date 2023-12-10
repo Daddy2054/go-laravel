@@ -13,6 +13,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/daddy2054/celeritas/cache"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
+	"github.com/daddy2054/celeritas/filesystems/s3filesystem"
 	"github.com/daddy2054/celeritas/filesystems/sftpfilesystem"
 	"github.com/daddy2054/celeritas/filesystems/webdavfilesystem"
 	"github.com/daddy2054/celeritas/mailer"
@@ -379,6 +380,17 @@ func (c *Celeritas) BuildDSN() string {
 func (c *Celeritas) createFileSystems() map[string]interface{} {
 	fileSystems := make(map[string]interface{})
 
+	if os.Getenv("S3_KEY") != "" {
+		s3 := s3filesystem.S3{
+			Key: os.Getenv("S3_KEY"),
+			Secret: os.Getenv("S3_SECRET"),
+			Region: os.Getenv("S3_REGION"),
+			Endpoint: os.Getenv("S3_ENDPOINT"),
+			Bucket: os.Getenv("S3_BUCKET"),
+		}
+		fileSystems["S3"] = s3
+	}
+	
 	if os.Getenv("MINIO_SECRET") != "" {
 		useSSL := false
 		if strings.ToLower(os.Getenv("MINIO_USESSL")) == "true" {
