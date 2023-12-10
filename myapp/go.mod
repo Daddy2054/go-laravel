@@ -21,6 +21,7 @@ require (
 	github.com/minio/sha256-simd v1.0.1 // indirect
 	github.com/pkg/sftp v1.13.6 // indirect
 	github.com/rs/xid v1.5.0 // indirect
+	github.com/studio-b12/gowebdav v0.9.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
 

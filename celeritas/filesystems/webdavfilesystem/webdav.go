@@ -64,7 +64,15 @@ func (w *WebDAV) List(prefix string) ([]filesystems.Listing, error) {
 	return listing, nil
 }
 
-func (s *WebDAV) Delete(itemsToDelete []string) bool {
+// Delete deletes file(s) from the remote file system
+func (w *WebDAV) Delete(itemsToDelete []string) bool {
+	client := w.getCredentials()
+	for _, item := range itemsToDelete {
+		err := client.Remove(item)
+		if err != nil {
+			return false
+		}
+	}
 	return true
 }
 

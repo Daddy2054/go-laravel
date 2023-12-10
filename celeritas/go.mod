@@ -10,6 +10,9 @@ require (
 	github.com/alexedwards/scs/v2 v2.7.0
 	github.com/go-git/go-git/v5 v5.10.1
 	github.com/jackc/pgx/v4 v4.18.1
+	github.com/minio/minio-go/v7 v7.0.65
+	github.com/pkg/sftp v1.13.6
+	github.com/studio-b12/gowebdav v0.9.0
 )
 
 require (
@@ -26,14 +29,11 @@ require (
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
-	github.com/minio/minio-go/v7 v7.0.65 // indirect
 	github.com/minio/sha256-simd v1.0.1 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
-	github.com/pkg/sftp v1.13.6 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/skeema/knownhosts v1.2.1 // indirect
-	github.com/studio-b12/gowebdav v0.9.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
@@ -137,7 +137,7 @@ require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.3.2 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
-	golang.org/x/crypto v0.15.0 // indirect
+	golang.org/x/crypto v0.15.0
 	golang.org/x/text v0.14.0 // indirect
 )
 

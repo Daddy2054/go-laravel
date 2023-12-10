@@ -13,6 +13,7 @@ import (
 	"github.com/daddy2054/celeritas/filesystems"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
 	"github.com/daddy2054/celeritas/filesystems/sftpfilesystem"
+	"github.com/daddy2054/celeritas/filesystems/webdavfilesystem"
 )
 
 // Handlers is the type for handlers, and gives access to Celeritas and models
@@ -51,13 +52,13 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			fs = &f
 			fsType = "MINIO"
 
-		case "SFTP":
+		case "SFTP"://this is broken
 			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 			fs = &f
 			fsType = "SFTP"
 		}
 		//---------------
-		if curPath == "/" { // this makes files displayed
+		if curPath == "/" { // this makes minio files displayed
 			curPath = ""
 		}
 		//--------------
@@ -69,9 +70,7 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 
 		list = l
 	}
-	// ----
-	h.App.ErrorLog.Println(list)
-	//---
+
 	vars := make(jet.VarMap)
 	vars.Set("list", list)
 	vars.Set("fs_type", fsType)
@@ -161,6 +160,10 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 	case "SFTP":
 		f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 		fs = &f
+	case "WEBDAV":
+		f := h.App.FileSystems["WEBDAV"].(webdavfilesystem.WebDAV)
+		fs = &f
+	
 	}
 
 	deleted := fs.Delete([]string{item})
