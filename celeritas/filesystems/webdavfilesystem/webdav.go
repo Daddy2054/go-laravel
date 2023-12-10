@@ -2,6 +2,7 @@ package webdavfilesystem
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"strings"
@@ -76,6 +77,36 @@ func (w *WebDAV) Delete(itemsToDelete []string) bool {
 	return true
 }
 
-func (s *WebDAV) Get(destination string, items ...string) error {
+// Get retrieves file(s) from the remote file system
+func (w *WebDAV) Get(destination string, items ...string) error {
+	client := w.getCredentials()
+
+	for _, item := range items{
+		err := func() error{
+			webdavFilePath := item
+			localFilePath := fmt.Sprintf("%s/%s", destination, path.Base(item))
+
+			reader, err := client.ReadStream(webdavFilePath)
+			if err != nil {
+				return err
+			}
+
+			file, err := os.Create(localFilePath)
+			if err != nil {
+				return err
+			}
+			defer file.Close()
+
+			_, err = io.Copy(file, reader)
+			if err != nil {
+				return err
+			}
+			
+			return nil
+		}()
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
