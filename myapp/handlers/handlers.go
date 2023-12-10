@@ -71,6 +71,9 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			f := h.App.FileSystems["S3"].(s3filesystem.S3)
 			fs = &f
 			fsType = "S3"
+			if curPath == "/" { // this makes minio files displayed
+				curPath = ""
+			}
 		}
 		l, err := fs.List(curPath)
 		if err != nil {
