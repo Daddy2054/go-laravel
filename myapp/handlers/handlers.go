@@ -12,6 +12,7 @@ import (
 	"github.com/daddy2054/celeritas"
 	"github.com/daddy2054/celeritas/filesystems"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
+	"github.com/daddy2054/celeritas/filesystems/s3filesystem"
 	"github.com/daddy2054/celeritas/filesystems/sftpfilesystem"
 	"github.com/daddy2054/celeritas/filesystems/webdavfilesystem"
 )
@@ -52,21 +53,25 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			fs = &f
 			fsType = "MINIO"
 
-		case "SFTP": //this is broken
+			if curPath == "/" { // this makes minio files displayed
+				curPath = ""
+			}
+
+		case "SFTP":
 			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 			fs = &f
 			fsType = "SFTP"
+
 		case "WEBDAV":
 			f := h.App.FileSystems["WEBDAV"].(webdavfilesystem.WebDAV)
 			fs = &f
 			fsType = "WEBDAV"
-		}
 
-		//---------------
-		if curPath == "/" { // this makes minio files displayed
-			curPath = ""
+		case "S3":
+			f := h.App.FileSystems["S3"].(s3filesystem.S3)
+			fs = &f
+			fsType = "S3"
 		}
-		//--------------
 		l, err := fs.List(curPath)
 		if err != nil {
 			h.App.ErrorLog.Println(err)
@@ -131,6 +136,13 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+	case "S3":
+		fs := h.App.FileSystems["S3"].(s3filesystem.S3)
+		err = fs.Put(fileName, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	h.App.Session.Put(r.Context(), "flash", "File uploaded!")
@@ -175,7 +187,9 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 	case "WEBDAV":
 		f := h.App.FileSystems["WEBDAV"].(webdavfilesystem.WebDAV)
 		fs = &f
-
+	case "S3":
+		f := h.App.FileSystems["S3"].(s3filesystem.S3)
+		fs = &f
 	}
 
 	deleted := fs.Delete([]string{item})

@@ -12,8 +12,10 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.48.16 // indirect
 	github.com/gofrs/uuid v4.1.0+incompatible // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
