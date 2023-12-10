@@ -69,9 +69,9 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 
 		list = l
 	}
-//----
-h.App.ErrorLog.Println(list)
-//---
+	// ----
+	h.App.ErrorLog.Println(list)
+	//---
 	vars := make(jet.VarMap)
 	vars.Set("list", list)
 	vars.Set("fs_type", fsType)
@@ -97,7 +97,7 @@ func (h *Handlers) UploadToFS(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 	fileName, err := getFileToUpload(r, "formFile")
 	h.App.ErrorLog.Println(fileName)
-	
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -157,6 +157,9 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 	switch fsType {
 	case "MINIO":
 		f := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
+		fs = &f
+	case "SFTP":
+		f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 		fs = &f
 	}
 
