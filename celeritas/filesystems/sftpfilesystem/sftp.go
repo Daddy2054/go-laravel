@@ -22,7 +22,7 @@ type SFTP struct {
 
 func (s *SFTP) getCredentials() (*sftp.Client, error) {
 	addr := fmt.Sprintf("%s:%s", s.Host, s.Port)
-		config := &ssh.ClientConfig{
+	config := &ssh.ClientConfig{
 		User: s.User,
 		Auth: []ssh.AuthMethod{
 			ssh.Password(s.Pass),
@@ -31,15 +31,15 @@ func (s *SFTP) getCredentials() (*sftp.Client, error) {
 	}
 
 	conn, err := ssh.Dial("tcp", addr, config)
-		if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	client, err := sftp.NewClient(conn)
-		if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	cwd, err := client.Getwd()
-		if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	log.Println("Current working directory:", cwd)
@@ -61,7 +61,7 @@ func (s *SFTP) Put(fileName, folder string) error {
 	}
 	defer f.Close()
 
-	f2, err := client.Create(fmt.Sprintf("%s/%s",folder,path.Base(fileName)))
+	f2, err := client.Create(fmt.Sprintf("%s/%s", folder, path.Base(fileName)))
 	if err != nil {
 		return err
 	}
@@ -130,28 +130,33 @@ func (s *SFTP) Get(destination string, items ...string) error {
 	defer client.Close()
 
 	for _, item := range items {
-		// create a destination file
-		dstFile, err := os.Create(fmt.Sprintf("%s/%s", destination, path.Base(item)))
-		if err != nil {
-			return err
-		}
-		defer dstFile.Close()
+		err := func() error {
+			// create a destination file
+			dstFile, err := os.Create(fmt.Sprintf("%s/%s", destination, path.Base(item)))
+			if err != nil {
+				return err
+			}
+			defer dstFile.Close()
 
-		// open source file
-		srcFile, err := client.Open(item)
-		if err != nil {
-			return err
-		}
+			// open source file
+			srcFile, err := client.Open(item)
+			if err != nil {
+				return err
+			}
+			defer srcFile.Close()
+			// copy src to dst
+			_, err = io.Copy(dstFile, srcFile)
+			if err != nil {
+				return err
+			}
 
-		// copy src to dst
-		bytes, err := io.Copy(dstFile, srcFile)
-		if err != nil {
-			return err
-		}
-		log.Printf("%d bytes copied", bytes)
-
-		// flush the in-memory copy
-		err = dstFile.Sync()
+			// flush the in-memory copy
+			err = dstFile.Sync()
+			if err != nil {
+				return err
+			}
+			return nil
+		}()
 		if err != nil {
 			return err
 		}
