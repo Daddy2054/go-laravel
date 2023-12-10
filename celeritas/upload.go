@@ -1,12 +1,15 @@
 package celeritas
 
 import (
+	"errors"
 	"fmt"
-	"github.com/daddy2054/celeritas/filesystems"
 	"io"
 	"net/http"
 	"os"
 	"path"
+
+	"github.com/daddy2054/celeritas/filesystems"
+	"github.com/gabriel-vasile/mimetype"
 )
 
 func (c *Celeritas) UploadFile(r *http.Request, destination, field string, fs filesystems.FS) error {
@@ -41,6 +44,28 @@ func (c *Celeritas) getFileToUpload(r *http.Request, fieldName string) (string, 
 	}
 	defer file.Close()
 
+	mimeType, err := mimetype.DetectReader(file)
+	if err != nil {
+		return "", err
+	}
+
+	// go back to start of file
+	_, err = file.Seek(0, 0)
+	if err != nil {
+		return "", err
+	}
+
+	validMimeTypes := []string{
+		"image/gif",
+		"image/jpeg",
+		"image/png",
+		"application/pdf",
+	}
+
+	if !inSlice(validMimeTypes, mimeType.String()) {
+		return "", errors.New("invalid file type uploaded")
+	}
+
 	dst, err := os.Create(fmt.Sprintf("./tmp/%s", header.Filename))
 	if err != nil {
 		return "", err
@@ -53,4 +78,13 @@ func (c *Celeritas) getFileToUpload(r *http.Request, fieldName string) (string, 
 	}
 
 	return fmt.Sprintf("./tmp/%s", header.Filename), nil
+}
+
+func inSlice(slice []string, val string) bool {
+	for _, item := range slice {
+		if item == val {
+			return true
+		}
+	}
+	return false
 }
