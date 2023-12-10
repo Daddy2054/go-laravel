@@ -33,6 +33,7 @@ require (
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/skeema/knownhosts v1.2.1 // indirect
+	github.com/studio-b12/gowebdav v0.9.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
