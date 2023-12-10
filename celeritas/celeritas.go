@@ -52,6 +52,10 @@ type Celeritas struct {
 	Mail          mailer.Mail
 	Server        Server
 	FileSystems map[string]interface{}
+	S3            s3filesystem.S3
+	SFTP          sftpfilesystem.SFTP
+	WebDAV        webdavfilesystem.WebDAV
+	Minio         miniofilesystem.Minio
 }
 
 type Server struct {
@@ -382,15 +386,16 @@ func (c *Celeritas) createFileSystems() map[string]interface{} {
 
 	if os.Getenv("S3_KEY") != "" {
 		s3 := s3filesystem.S3{
-			Key: os.Getenv("S3_KEY"),
-			Secret: os.Getenv("S3_SECRET"),
-			Region: os.Getenv("S3_REGION"),
+			Key:      os.Getenv("S3_KEY"),
+			Secret:   os.Getenv("S3_SECRET"),
+			Region:   os.Getenv("S3_REGION"),
 			Endpoint: os.Getenv("S3_ENDPOINT"),
-			Bucket: os.Getenv("S3_BUCKET"),
+			Bucket:   os.Getenv("S3_BUCKET"),
 		}
 		fileSystems["S3"] = s3
+		c.S3 = s3
 	}
-	
+
 	if os.Getenv("MINIO_SECRET") != "" {
 		useSSL := false
 		if strings.ToLower(os.Getenv("MINIO_USESSL")) == "true" {
@@ -399,13 +404,14 @@ func (c *Celeritas) createFileSystems() map[string]interface{} {
 
 		minio := miniofilesystem.Minio{
 			Endpoint: os.Getenv("MINIO_ENDPOINT"),
-			Key: os.Getenv("MINIO_KEY"),
-			Secret: os.Getenv("MINIO_SECRET"),
-			UseSSL: useSSL,
-			Region: os.Getenv("MINIO_REGION"),
-			Bucket: os.Getenv("MINIO_BUCKET"),
+			Key:      os.Getenv("MINIO_KEY"),
+			Secret:   os.Getenv("MINIO_SECRET"),
+			UseSSL:   useSSL,
+			Region:   os.Getenv("MINIO_REGION"),
+			Bucket:   os.Getenv("MINIO_BUCKET"),
 		}
 		fileSystems["MINIO"] = minio
+		c.Minio = minio
 	}
 
 	if os.Getenv("SFTP_HOST") != "" {
@@ -416,7 +422,9 @@ func (c *Celeritas) createFileSystems() map[string]interface{} {
 			Port: os.Getenv("SFTP_PORT"),
 		}
 		fileSystems["SFTP"] = sftp
+		c.SFTP = sftp
 	}
+
 	if os.Getenv("WEBDAV_HOST") != "" {
 		webDav := webdavfilesystem.WebDAV{
 			Host: os.Getenv("WEBDAV_HOST"),
@@ -424,6 +432,8 @@ func (c *Celeritas) createFileSystems() map[string]interface{} {
 			Pass: os.Getenv("WEBDAV_PASS"),
 		}
 		fileSystems["WEBDAV"] = webDav
+		c.WebDAV = webDav
 	}
+
 	return fileSystems
 }
