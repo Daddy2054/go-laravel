@@ -38,8 +38,8 @@ services:
     environment:
       SFTPGO_WEBDAVD__BINDINGS__0__PORT: 10080
     volumes:
-      - ../db-data/sftp/:/srv/sftpgo
-      # - ../db-data/sftp/:/mnt/data/
+     # - ../db-data/sftp/:/srv/sftpgo
+      - ../db-data/sftp/:/mnt/data/
       - ../db-data/home/:/var/lib/sftpgo
 
   #  start minio, and ensure that data is stored to a mounted volume

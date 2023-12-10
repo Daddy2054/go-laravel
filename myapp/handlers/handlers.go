@@ -52,11 +52,16 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			fs = &f
 			fsType = "MINIO"
 
-		case "SFTP"://this is broken
+		case "SFTP": //this is broken
 			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 			fs = &f
 			fsType = "SFTP"
+		case "WEBDAV":
+			f := h.App.FileSystems["WEBDAV"].(webdavfilesystem.WebDAV)
+			fs = &f
+			fsType = "WEBDAV"
 		}
+
 		//---------------
 		if curPath == "/" { // this makes minio files displayed
 			curPath = ""
@@ -119,6 +124,13 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+	case "WEBDAV":
+		fs := h.App.FileSystems["WEBDAV"].(webdavfilesystem.WebDAV)
+		err = fs.Put(fileName, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	h.App.Session.Put(r.Context(), "flash", "File uploaded!")
@@ -163,7 +175,7 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 	case "WEBDAV":
 		f := h.App.FileSystems["WEBDAV"].(webdavfilesystem.WebDAV)
 		fs = &f
-	
+
 	}
 
 	deleted := fs.Delete([]string{item})

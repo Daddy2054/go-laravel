@@ -14,6 +14,7 @@ import (
 	"github.com/daddy2054/celeritas/cache"
 	"github.com/daddy2054/celeritas/filesystems/miniofilesystem"
 	"github.com/daddy2054/celeritas/filesystems/sftpfilesystem"
+	"github.com/daddy2054/celeritas/filesystems/webdavfilesystem"
 	"github.com/daddy2054/celeritas/mailer"
 	"github.com/daddy2054/celeritas/render"
 	"github.com/daddy2054/celeritas/session"
@@ -404,6 +405,13 @@ func (c *Celeritas) createFileSystems() map[string]interface{} {
 		}
 		fileSystems["SFTP"] = sftp
 	}
-
+	if os.Getenv("WEBDAV_HOST") != "" {
+		webDav := webdavfilesystem.WebDAV{
+			Host: os.Getenv("WEBDAV_HOST"),
+			User: os.Getenv("WEBDAV_USER"),
+			Pass: os.Getenv("WEBDAV_PASS"),
+		}
+		fileSystems["WEBDAV"] = webDav
+	}
 	return fileSystems
 }
