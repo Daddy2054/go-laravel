@@ -65,6 +65,21 @@ func (c *Celeritas) PopMigrateDown(tx *pop.Connection, steps ...int) error {
 	return nil
 }
 
+func (c *Celeritas) PopMigrateReset(tx *pop.Connection) error {
+	var migrationPath = c.RootPath + "/migrations"
+
+	fm, err := pop.NewFileMigrator(migrationPath, tx)
+	if err != nil {
+		return err
+	}
+
+	err = fm.Reset()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (c *Celeritas) MigrateUp(dsn string) error {
 	m, err := migrate.New("file://"+c.RootPath+"/migrations", dsn)
 	if err != nil {
