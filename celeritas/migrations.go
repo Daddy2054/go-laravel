@@ -12,13 +12,13 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
-func (c *Celeritas) popConnect() (*pop.Connection, error) {
-	tx, err := pop.Connect("development")
-	if err != nil {
-		return nil, err
-	}
-	return tx, nil
-}
+// func (c *Celeritas) popConnect() (*pop.Connection, error) {
+// 	tx, err := pop.Connect("development")
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return tx, nil
+// }
 
 func (c *Celeritas) CreatePopMigration(up, down []byte, migrationName, migrationType string) error {
 	var migrationPath = c.RootPath + "/migrations"

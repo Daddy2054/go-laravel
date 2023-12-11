@@ -8,7 +8,9 @@ require github.com/go-chi/chi/v5 v5.0.10
 
 require (
 	github.com/alexedwards/scs/v2 v2.7.0
+	github.com/aws/aws-sdk-go v1.48.16
 	github.com/go-git/go-git/v5 v5.10.1
+	github.com/gobuffalo/pop v4.13.1+incompatible
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/minio/minio-go/v7 v7.0.65
 	github.com/pkg/sftp v1.13.6
@@ -19,7 +21,6 @@ require (
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/Masterminds/semver/v3 v3.1.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
-	github.com/aws/aws-sdk-go v1.48.16 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
 	github.com/cockroachdb/cockroach-go v2.0.1+incompatible // indirect
@@ -38,7 +39,6 @@ require (
 	github.com/gobuffalo/nulls v0.4.2 // indirect
 	github.com/gobuffalo/packd v1.0.2 // indirect
 	github.com/gobuffalo/plush/v4 v4.1.16 // indirect
-	github.com/gobuffalo/pop v4.13.1+incompatible // indirect
 	github.com/gobuffalo/tags/v3 v3.1.4 // indirect
 	github.com/gobuffalo/validate v2.0.4+incompatible // indirect
 	github.com/gobuffalo/validate/v3 v3.3.3 // indirect
@@ -112,7 +112,7 @@ require (
 	github.com/dgraph-io/badger/v3 v3.2103.5
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.3
 	github.com/gertd/go-pluralize v0.2.1
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b // indirect
