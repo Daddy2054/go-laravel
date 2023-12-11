@@ -3,6 +3,7 @@ package celeritas
 import (
 	"log"
 
+	"github.com/gobuffalo/pop"
 	"github.com/golang-migrate/migrate/v4"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -10,6 +11,14 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
+
+func (c *Celeritas) popConnect() (*pop.Connection, error) {
+	tx, err := pop.Connect("development")
+	if err != nil {
+		return nil, err
+	}
+	return tx, nil
+}
 
 func (c *Celeritas) MigrateUp(dsn string) error {
 	m, err := migrate.New("file://"+c.RootPath+"/migrations", dsn)

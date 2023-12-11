@@ -17,26 +17,54 @@ require (
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
+	github.com/Masterminds/semver/v3 v3.1.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
 	github.com/aws/aws-sdk-go v1.48.16 // indirect
+	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
+	github.com/cockroachdb/cockroach-go v2.0.1+incompatible // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
+	github.com/fatih/structs v1.1.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.5.0 // indirect
+	github.com/gobuffalo/envy v1.10.2 // indirect
+	github.com/gobuffalo/fizz v1.14.4 // indirect
+	github.com/gobuffalo/flect v1.0.2 // indirect
+	github.com/gobuffalo/genny v0.6.0 // indirect
+	github.com/gobuffalo/github_flavored_markdown v1.1.3 // indirect
+	github.com/gobuffalo/helpers v0.6.7 // indirect
+	github.com/gobuffalo/logger v1.0.3 // indirect
+	github.com/gobuffalo/nulls v0.4.2 // indirect
+	github.com/gobuffalo/packd v1.0.2 // indirect
+	github.com/gobuffalo/plush/v4 v4.1.16 // indirect
+	github.com/gobuffalo/pop v4.13.1+incompatible // indirect
+	github.com/gobuffalo/tags/v3 v3.1.4 // indirect
+	github.com/gobuffalo/validate v2.0.4+incompatible // indirect
+	github.com/gobuffalo/validate/v3 v3.3.3 // indirect
+	github.com/gofrs/uuid v4.2.0+incompatible // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/jmoiron/sqlx v1.3.5 // indirect
+	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/kr/fs v0.1.0 // indirect
+	github.com/mattn/go-sqlite3 v1.14.16 // indirect
+	github.com/microcosm-cc/bluemonday v1.0.20 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
 	github.com/minio/sha256-simd v1.0.1 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
+	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/rs/xid v1.5.0 // indirect
-	github.com/sergi/go-diff v1.1.0 // indirect
+	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/skeema/knownhosts v1.2.1 // indirect
+	github.com/sourcegraph/annotate v0.0.0-20160123013949-f4cad6c6324d // indirect
+	github.com/sourcegraph/syntaxhighlight v0.0.0-20170531221838-bd320f5d308e // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
+	golang.org/x/sync v0.3.0 // indirect
+	golang.org/x/term v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 )
@@ -65,7 +93,7 @@ require (
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/tools v0.13.0 // indirect
-	gopkg.in/yaml.v2 v2.3.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
 require (
