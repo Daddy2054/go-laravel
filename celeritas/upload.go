@@ -31,6 +31,9 @@ func (c *Celeritas) UploadFile(r *http.Request, destination, field string, fs fi
 			c.ErrorLog.Println(err)
 			return err
 		}
+		defer func(){
+			_=os.Remove((fileName))
+		}()
 	}
 	return nil
 }
