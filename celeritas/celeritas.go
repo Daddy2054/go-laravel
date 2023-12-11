@@ -51,7 +51,7 @@ type Celeritas struct {
 	Scheduler     *cron.Cron
 	Mail          mailer.Mail
 	Server        Server
-	FileSystems map[string]interface{}
+	FileSystems   map[string]interface{}
 	S3            s3filesystem.S3
 	SFTP          sftpfilesystem.SFTP
 	WebDAV        webdavfilesystem.WebDAV
@@ -72,6 +72,12 @@ type config struct {
 	sessionType string
 	database    databaseConfig
 	redis       redisConfig
+	uploads     uploadConfig
+}
+
+type uploadConfig struct {
+	allowedMimeTypes []string
+	maxUploadSize    int64
 }
 
 func (c *Celeritas) New(rootPath string) error {
@@ -150,6 +156,21 @@ func (c *Celeritas) New(rootPath string) error {
 	c.Mail = c.createMailer()
 	c.Routes = c.routes().(*chi.Mux)
 
+	// file uploads
+	exploded := strings.Split(os.Getenv("ALLOWED_FILETYPES"), ",")
+	var mimeTypes []string
+	mimeTypes = append(mimeTypes, exploded...)
+	// for _, m := range exploded {
+	// 	mimeTypes = append(mimeTypes, m)
+	// }
+
+	var maxUploadSize int64
+	if max, err := strconv.Atoi(os.Getenv("MAX_UPLOAD_SIZE")); err != nil {
+		maxUploadSize = 10 << 20
+	} else {
+		maxUploadSize = int64(max)
+	}
+
 	c.config = config{
 		port:     os.Getenv("PORT"),
 		renderer: os.Getenv("RENDERER"),
@@ -170,6 +191,10 @@ func (c *Celeritas) New(rootPath string) error {
 			password: os.Getenv("REDIS_PASSWORD"),
 			prefix:   os.Getenv("REDIS_PREFIX"),
 		},
+		uploads: uploadConfig{
+			maxUploadSize:    maxUploadSize,
+			allowedMimeTypes: mimeTypes,
+		},
 	}
 
 	secure := true
@@ -179,11 +204,11 @@ func (c *Celeritas) New(rootPath string) error {
 
 	c.Server = Server{
 		ServerName: os.Getenv("SERVER_NAME"),
-		Port: os.Getenv("PORT"),
-		Secure: secure,
-		URL: os.Getenv("APP_URL"),
+		Port:       os.Getenv("PORT"),
+		Secure:     secure,
+		URL:        os.Getenv("APP_URL"),
 	}
-	
+
 	// create session
 
 	sess := session.Session{
@@ -221,7 +246,7 @@ func (c *Celeritas) New(rootPath string) error {
 
 	c.createRenderer()
 
-	c.FileSystems =c.createFileSystems()
+	c.FileSystems = c.createFileSystems()
 
 	go c.Mail.ListenForMail()
 	return nil
@@ -299,20 +324,20 @@ func (c *Celeritas) createRenderer() {
 func (c *Celeritas) createMailer() mailer.Mail {
 	port, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
 	m := mailer.Mail{
-		Domain: os.Getenv("MAIL_DOMAIN"),
-		Templates: c.RootPath + "/mail",
-		Host: os.Getenv("SMTP_HOST"),
-		Port: port,
-		Username: os.Getenv("SMTP_USERNAME"),
-		Password: os.Getenv("SMTP_PASSWORD"),
-		Encryption: os.Getenv("SMTP_ENCRYPTION"),
-		FromName: os.Getenv("FROM_NAME"),
+		Domain:      os.Getenv("MAIL_DOMAIN"),
+		Templates:   c.RootPath + "/mail",
+		Host:        os.Getenv("SMTP_HOST"),
+		Port:        port,
+		Username:    os.Getenv("SMTP_USERNAME"),
+		Password:    os.Getenv("SMTP_PASSWORD"),
+		Encryption:  os.Getenv("SMTP_ENCRYPTION"),
+		FromName:    os.Getenv("FROM_NAME"),
 		FromAddress: os.Getenv("FROM_ADDRESS"),
-		Jobs: make(chan mailer.Message, 20),
-		Results: make(chan mailer.Result, 20),
-		API: os.Getenv("MAILER_API"),
-		APIKey: os.Getenv("MAILER_KEY"),
-		APIUrl: os.Getenv("MAILER_URL"),
+		Jobs:        make(chan mailer.Message, 20),
+		Results:     make(chan mailer.Result, 20),
+		API:         os.Getenv("MAILER_API"),
+		APIKey:      os.Getenv("MAILER_KEY"),
+		APIUrl:      os.Getenv("MAILER_URL"),
 	}
 	return m
 }
